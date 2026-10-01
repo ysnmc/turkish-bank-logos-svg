@@ -96,6 +96,8 @@ const ADLAR = [
   ['TT ÖDEME VE ELEKTRONİK PARA HİZMETLERİ A.Ş.', 'pokus'],
   ['TT ÖDEME A.Ş.', 'pokus'],
   ['GETİR FİNANS', 'getirfinans'],
+  ['TROY', 'troy'],
+  ['TROY KART', 'troy'],
   ['BİLİNMEYEN BANKA A.Ş.', null],
   ['', null],
   ['   ', null],
@@ -117,6 +119,7 @@ test('bankLogoUrl: slug, banka adı, verilen base ve eşleşmeyen ad', () => {
   assert.equal(bankLogoUrl('garanti', 'https://ornek.test/svg/'), 'https://ornek.test/svg/garanti.svg');
   assert.match(bankLogoUrl('garanti'), /\/svg\/garanti\.svg$/);
   assert.match(bankLogoUrl('TOSLA'), /\/svg\/tosla\.svg$/);
+  assert.match(bankLogoUrl('TROY'), /\/svg\/troy\.svg$/);
   assert.equal(bankLogoUrl('BİLİNMEYEN BANKA A.Ş.'), null);
 });
 
@@ -125,11 +128,11 @@ test('her eşleme hedefinin logosu var', () => {
   for (const [parca, slug] of MATCH) assert.ok(slugs.has(slug), `${parca} → ${slug}: logo yok`);
 });
 
-test('svg/, logos.json, logos.js ve README tabloları aynı 41 logoyu anlatıyor', () => {
+test('svg/, logos.json, logos.js ve README tabloları aynı 42 logoyu anlatıyor', () => {
   const dosyalar = readdirSync(join(root, 'svg')).filter(f => f.endsWith('.svg')).map(f => f.slice(0, -4)).sort();
   const json = JSON.parse(readFileSync(join(root, 'logos.json'), 'utf8'));
   const readme = [...readFileSync(join(root, 'README.md'), 'utf8').matchAll(/^\| `([a-z0-9]+)\.svg` \|/gm)].map(m => m[1]).sort();
-  assert.equal(dosyalar.length, 41);
+  assert.equal(dosyalar.length, 42);
   assert.deepEqual(json.map(l => l.slug).sort(), dosyalar);
   assert.deepEqual(logos.map(l => l.slug).sort(), dosyalar);
   assert.deepEqual(readme, dosyalar);
@@ -139,7 +142,7 @@ test('svg/, logos.json, logos.js ve README tabloları aynı 41 logoyu anlatıyor
 
 test('her logo bir türe ait: banka ya da ödeme / e-para kuruluşu', () => {
   for (const l of logos) assert.ok(['bank', 'payment'].includes(l.type), `${l.slug}: tür yok`);
-  assert.deepEqual(logos.filter(l => l.type === 'payment').map(l => l.slug).sort(), ['getirfinans', 'ininal', 'iyzico', 'papara', 'pokus', 'tosla']);
+  assert.deepEqual(logos.filter(l => l.type === 'payment').map(l => l.slug).sort(), ['getirfinans', 'ininal', 'iyzico', 'papara', 'pokus', 'tosla', 'troy']);
 });
 
 test('bank-logos.css her logo için oranlı bir sınıf taşıyor', () => {

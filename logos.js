@@ -351,6 +351,16 @@ export default [
     "license": "trademark"
   },
   {
+    "slug": "troy",
+    "name": "TROY (ödeme yöntemi)",
+    "type": "payment",
+    "file": "svg/troy.svg",
+    "width": 298.04,
+    "height": 137.25,
+    "source": "kurumun web sitesi (TROY Logolar)",
+    "license": "trademark"
+  },
+  {
     "slug": "turkiyefinans",
     "name": "Türkiye Finans Katılım",
     "type": "bank",

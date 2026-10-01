@@ -291,6 +291,16 @@ export default [
     "license": "trademark"
   },
   {
+    "slug": "paytr",
+    "name": "PayTR (ödeme ve e-para)",
+    "type": "payment",
+    "file": "svg/paytr.svg",
+    "width": 135,
+    "height": 24,
+    "source": "kurumun web sitesi",
+    "license": "trademark"
+  },
+  {
     "slug": "pokus",
     "name": "Pokus (e-para)",
     "type": "payment",

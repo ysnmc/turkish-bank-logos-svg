@@ -83,6 +83,8 @@ export const MATCH = [
   ['ttodeme', 'pokus'],
   ['troykart', 'troy'],
   ['troy', 'troy'],
+  ['paytrodeme', 'paytr'],
+  ['paytr', 'paytr'],
   // kısa anahtarlar EN SONDA
   ['atbank', 'atbank'],
   ['abank', 'alternatifbank'],

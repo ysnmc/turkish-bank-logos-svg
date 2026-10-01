@@ -169,8 +169,8 @@ test('svg-white/ her logonun güncel beyaz sürümünü taşıyor', () => {
 test('whiteSvg: kök etiketi ve viewBox korunur, içerik filtreye alınır', () => {
   const kaynak = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 5"><rect width="10" height="5" fill="#dc0005"/></svg>';
   const beyaz = whiteSvg(kaynak);
-  assert.ok(beyaz.startsWith('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 5"><defs><filter id="tbl-white" x="0" y="0" width="10" height="5"'));
-  assert.ok(beyaz.includes('<g filter="url(#tbl-white)"><rect width="10" height="5" fill="#dc0005"/></g></svg>'));
+  assert.ok(beyaz.startsWith('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 5"><defs><filter id="tbl-white-svg" x="0" y="0" width="10" height="5"'));
+  assert.ok(beyaz.includes('<g filter="url(#tbl-white-svg)"><rect width="10" height="5" fill="#dc0005"/></g></svg>'));
   assert.throws(() => whiteSvg('<svg><rect/></svg>', 'x'), /viewBox yok/);
 });
 
@@ -194,13 +194,15 @@ test('ton ayarı var olan logolara uygulanmış', () => {
 // (Ton ayarı konum hesabından sonra uygulanınca dosyalar ortadan kesiliyordu; aynı fonksiyonla
 // karşılaştıran test bunu görmedi.)
 test('beyaz dosya kaynağın tam içeriğini filtre sarmalıyla taşıyor', () => {
-  const ac = '<g filter="url(#tbl-white)">', kapa = '</g></svg>\n';
+  const kapa = '</g></svg>\n';
   for (const l of logos) {
+    const fid = `tbl-white-${l.slug}`;
+    const ac = `<g filter="url(#${fid})">`;
     const kaynak = tonla(readFileSync(join(root, 'svg', l.slug + '.svg'), 'utf8'), l.slug);
     const kok = /<svg\b[^>]*>/.exec(kaynak)[0];
     const ic = kaynak.slice(kaynak.indexOf(kok) + kok.length, kaynak.lastIndexOf('</svg>'));
     const beyaz = readFileSync(join(root, 'svg-white', l.slug + '.svg'), 'utf8');
-    assert.ok(beyaz.includes(kok + '<defs><filter id="tbl-white"'), `${l.slug}: kök etiketi bozuk`);
+    assert.ok(beyaz.includes(kok + `<defs><filter id="${fid}"`), `${l.slug}: kök etiketi bozuk`);
     assert.ok(beyaz.endsWith(kapa), `${l.slug}: kapanış bozuk`);
     assert.equal(beyaz.slice(beyaz.indexOf(ac) + ac.length, -kapa.length), ic, `${l.slug}: içerik kesilmiş`);
   }
